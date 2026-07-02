@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  workspace:
+    build: .
+    container_name: ai_workspace
+    privileged: true
+    ports:
+      - "3389:3389" # XRDP Default Port
+    environment:
+      # RDP Credentials
+      - RDP_USER=aiuser
+      - RDP_PASSWORD=aipassword
+      # Omniroute Configuration
+      - OMNIROUTE_ALLOW_IMAGES=true
+      - OMNIROUTE_LOG_LEVEL=info
+      # Hermes Configuration
+      - HERMES_AGENT_AUTO_UPDATE=true
+      - HERMES_AGENT_INSTALL_DIR=/usr/local/lib/node_modules
+      # API Keys (to be filled by the user)
+      - ANTHROPIC_API_KEY=
+      - OPENAI_API_KEY=
+      - GEMINI_API_KEY=
+      - GITHUB_TOKEN=
+    volumes:
+      - workspace_data:/home/aiuser/workspace
+    restart: unless-stopped
+
+volumes:
+  workspace_data:
