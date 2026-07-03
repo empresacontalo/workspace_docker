@@ -54,5 +54,10 @@ if command -v hermes-workspace >/dev/null; then
 fi
 
 echo "Starting XRDP..."
+# Ensure RSA keys are generated
+if [ ! -f /etc/xrdp/rsakeys.ini ]; then
+    xrdp-keygen xrdp auto
+fi
+
 # Start XRDP in foreground to keep container running
 exec xrdp -n
