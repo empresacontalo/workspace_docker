@@ -12,6 +12,10 @@ if ! id -u $RDP_USER > /dev/null 2>&1; then
     # Give all permissions (passwordless sudo) to the user (Hermes Agent requirement)
     echo "$RDP_USER ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/$RDP_USER
     chmod 0440 /etc/sudoers.d/$RDP_USER
+    
+    # Ensure home directory has correct ownership and skel files (because Docker volumes create it as root)
+    cp -rT /etc/skel /home/$RDP_USER || true
+    chown -R $RDP_USER:$RDP_USER /home/$RDP_USER
 fi
 
 # Set password for existing user if changed

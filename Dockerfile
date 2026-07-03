@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     xrdp \
     xfce4 \
     xfce4-terminal \
+    dbus \
     dbus-x11 \
     x11-xserver-utils \
     && apt-get clean \
