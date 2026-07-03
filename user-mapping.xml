@@ -1,0 +1,21 @@
+<user-mapping>
+    <!-- Configuração de credenciais de login para a interface WEB do Guacamole -->
+    <authorize username="aiuser" password="aipassword">
+        <connection name="AI Workspace">
+            <protocol>rdp</protocol>
+            <!-- Destino RDP, que no Docker Compose é o próprio nome do serviço `workspace` -->
+            <param name="hostname">workspace</param>
+            <param name="port">3389</param>
+            
+            <!-- Credenciais injetadas automaticamente no RDP (baseado nas variáveis do docker-compose) -->
+            <param name="username">aiuser</param>
+            <param name="password">aipassword</param>
+            
+            <!-- Ignorar erros de certificado TLS auto-assinado no XRDP -->
+            <param name="ignore-cert">true</param>
+            
+            <!-- Opções para melhor redimensionamento via navegador -->
+            <param name="resize-method">display-update</param>
+        </connection>
+    </authorize>
+</user-mapping>

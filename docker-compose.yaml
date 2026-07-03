@@ -3,8 +3,6 @@ version: '3.8'
 services:
   workspace:
     image: workspace_docker:latest # No Swarm, o build local é ignorado. É necessário criar a imagem antes ou usar um registry.
-    ports:
-      - "3389:3389" # XRDP Default Port
     networks:
       - npm_public
     deploy:
@@ -28,6 +26,31 @@ services:
       - GITHUB_TOKEN=
     volumes:
       - workspace_data:/home/aiuser/workspace
+
+  guacd:
+    image: guacamole/guacd:latest
+    networks:
+      - npm_public
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  guacamole:
+    image: guacamole/guacamole:latest
+    ports:
+      - "8080:8080" # Porta para acesso web do Guacamole
+    environment:
+      - GUACD_HOSTNAME=guacd
+      - GUACD_PORT=4822
+    volumes:
+      - ./user-mapping.xml:/etc/guacamole/user-mapping.xml:ro
+    networks:
+      - npm_public
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
 
 networks:
   npm_public:
