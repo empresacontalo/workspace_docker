@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     build-essential \
     xrdp \
+    xorgxrdp \
     xfce4 \
     xfce4-terminal \
     dbus \
