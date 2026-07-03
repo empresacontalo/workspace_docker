@@ -22,6 +22,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Configurar o ambiente do XFCE para o XRDP
 RUN echo "xfce4-session" > /etc/skel/.xsession
 
+# Forçar o XRDP a iniciar o XFCE garantidamente
+RUN echo "#!/bin/sh\n\
+if [ -r /etc/default/locale ]; then\n\
+  . /etc/default/locale\n\
+  export LANG LANGUAGE\n\
+fi\n\
+exec startxfce4" > /etc/xrdp/startwm.sh && chmod +x /etc/xrdp/startwm.sh
+
 # Instalar Node.js e NPM (necessário para a maioria das ferramentas)
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs && \
